@@ -19,17 +19,81 @@ let equal = document.querySelector('#igual');
 let clear = document.querySelector('#borrar');
 
 let screen = document.querySelector('#pantalla');
-let amount = 0;
+let amount = ' ';
+let onClick = 0;
+
+let result = 0;
+
 
 
 //SE PUDO, todavia no se como concatenar los numeros a la par para sumarlos y eso, pero por lo menos pude obtener el valor de cada boton :D
 
 boton.addEventListener('click', (event)=>{
-    console.log(event.srcElement.innerText);
+    onClick = event.srcElement.innerHTML; 
 
-    amount = event.srcElement.innerText;
+   
+    if (onClick === 'C') {
+        // No agregar la C al amount
+        return;
+    }
+
+
+    if (onClick === '+' || onClick === '-' || onClick === '×' || onClick === '÷') {
+        firstNumber = amount;  // guarda el primer número
+        operator = onClick;    // guarda el operador
+        amount = '';           // limpia para escribir el segundo número
+    } else if (onClick === '=') {
+        secondNumber = amount;  // guarda el segundo número
+        calcular();             // llama a la función para hacer la cuenta
+    } else {
+        amount += onClick;       // si es número o punto, sigue escribiendo
+    }
+    
+    
+    
     screen.innerHTML = amount;
+
 });
+
+
+clear.addEventListener('click', () => {
+    amount = '';
+    firstNumber = '';
+    secondNumber = '';
+    operator = '';
+    result = 0;
+    screen.innerHTML = '0';
+});
+
+
+function calcular() {
+    let num1 = parseFloat(firstNumber);
+    let num2 = parseFloat(secondNumber);
+
+    switch (operator) {
+        case '+':
+            result = num1 + num2;
+            break;
+        case '-':
+            result = num1 - num2;
+            break;
+        case '×':
+            result = num1 * num2;
+            break;
+        case '÷':
+            result = num1 / num2;
+            break;
+    }
+
+    screen.innerHTML = result;
+    amount = result.toString();  // así podés seguir operando después
+}
+
+
+
+
+
+
 
 
 
